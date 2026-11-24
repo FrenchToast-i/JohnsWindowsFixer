@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1A1C23">
+<title>John’s Windows Fixer — Speed Up &amp; Clean Windows 11 &amp; 10</title>
+<meta name="description" content="Bloatware, background apps, and startup junk slow Windows down. John’s Windows Fixer gives you 30+ Windows settings, cleanup actions, startup controls, background-app controls, and reversible toggles — with a restore point offered first.">
+<meta property="og:title" content="John’s Windows Fixer — Speed Up &amp; Clean Windows 11 &amp; 10">
+<meta property="og:description" content="Bloatware, background apps, and startup junk slow Windows down. John’s Windows Fixer gives you 30+ Windows settings, cleanup actions, startup controls, background-app controls, and reversible toggles — with a restore point offered first.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"John’s Windows Fixer","operatingSystem":"Windows 11, Windows 10","applicationCategory":"UtilitiesApplication","description":"A Windows utility with 30+ performance, storage, and privacy settings plus startup, background-app, and debloat controls. Reversible toggles are paired with one-time cleanup actions and a restore point offered first."}
+</script>
+<style>
+/* ============================================================
+   John’s Windows Fixer — Material 3 Expressive landing page
+   Tokens mirror the desktop app’s dynamic palette (dark).
+   ============================================================ */
+:root{
+  --bg:#1A1C23;
+  --surface:#1E2129;
+  --surface-high:#2A2E3A;
+  --surface-container:#242833;
+  --on-surface:#E6E8F2;
+  --on-surface-variant:#C2C6D0;
+  --primary:#DFE278;
+  --on-primary:#2A3100;
+  --primary-container:#4A530F;
+  --on-primary-container:#ECF09B;
+  --secondary-container:#474B2A;
+  --on-secondary-container:#E4E8BC;
+  --tertiary:#A6D9C0;
+  --tertiary-container:#2C5242;
+  --on-tertiary-container:#C1F2DC;
+  --error:#FFB4AB;
+  --outline:#8B909C;
+  --outline-variant:#43474F;
+  --radius-xl:28px;
+  --radius-lg:20px;
+  --radius-md:14px;
+  --appbar-h:68px;
+  font-family:"Roboto","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--on-surface);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+::selection{background:var(--primary);color:var(--on-primary)}
+svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+ul{list-style:none}
+:focus-visible{
+  outline:3px solid var(--primary);
+  outline-offset:2px;
+  border-radius:8px;
+}
+.skip-link{
+  position:fixed;top:-64px;left:16px;z-index:200;
+  background:var(--primary);color:var(--on-primary);
+  font-weight:700;padding:12px 20px;border-radius:999px;
+  transition:transform .25s ease;
+}
+.skip-link:focus{transform:translateY(72px)}
+.wrap{width:min(1120px,92vw);margin-inline:auto}
+section{scroll-margin-top:calc(var(--appbar-h) + 8px)}
+
+/* ---------- Section heads ---------- */
+.sec-head{max-width:640px;margin-bottom:clamp(36px,5vw,56px)}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-eyebrow{
+  display:inline-block;margin-bottom:12px;
+  font-size:.76rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--primary);
+}
+.sec-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:900;letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
+.sec-head p{margin-top:12px;color:var(--on-surface-variant);font-size:1.02rem}
+section{padding:clamp(64px,8vw,108px) 0}
+
+/* ---------- Buttons ---------- */
+.btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:48px;padding:0 26px;border-radius:999px;
+  font-weight:700;font-size:.98rem;white-space:nowrap;overflow:hidden;isolation:isolate;
+  transition:transform .25s cubic-bezier(.2,.9,.3,1.18),background-color .25s ease,box-shadow .25s ease;
+}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn-filled{background:var(--primary);color:var(--on-primary);box-shadow:0 6px 20px -6px rgba(223,226,120,.35)}
+.btn-filled:hover{box-shadow:0 10px 28px -8px rgba(223,226,120,.5)}
+.btn-tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
+.btn-lg{min-height:58px;padding:0 34px;font-size:1.05rem}
+.btn-lg svg{width:22px;height:22px}
+.btn-sm{min-height:44px;padding:0 18px;font-size:.88rem}
+
+/* ---------- Chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:32px;padding:0 14px;border-radius:999px;
+  background:var(--surface-container);border:1px solid var(--outline-variant);
+  font-size:.8rem;font-weight:600;color:var(--on-surface-variant);
+}
+
+/* ============================================================
+   App bar
+   ============================================================ */
+.appbar{
+  position:sticky;top:0;z-index:100;
+  height:var(--appbar-h);
+  display:flex;align-items:center;
+  background:color-mix(in srgb,var(--bg) 80%,transparent);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s ease,background-color .3s ease;
+}
+.appbar.scrolled{border-bottom-color:var(--outline-variant);background:color-mix(in srgb,var(--bg) 90%,transparent)}
+.appbar-inner{display:flex;align-items:center;gap:22px;height:100%}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.02rem;letter-spacing:-.01em}
+.brand-logo{width:32px;height:32px;flex:none}
+.brand small{display:block;font-size:.66rem;font-weight:600;color:var(--on-surface-variant);letter-spacing:.07em;text-transform:uppercase;margin-top:-2px}
+.appbar-nav{display:flex;gap:2px;margin-left:auto}
+.nav-link{
+  position:relative;padding:9px 15px;border-radius:999px;
+  font-weight:600;font-size:.9rem;color:var(--on-surface-variant);
+  transition:color .2s ease,background-color .2s ease;
+}
+.nav-link:hover{color:var(--on-surface);background:color-mix(in srgb,var(--on-surface) 7%,transparent)}
+.appbar-actions{display:flex;align-items:center;gap:10px;margin-left:10px}
+.menu-btn{
+  display:none;width:44px;height:44px;border-radius:50%;
+  align-items:center;justify-content:center;color:var(--on-surface);
+  transition:background-color .2s ease;
+}
+.menu-btn:hover{background:var(--surface-high)}
+.menu-btn svg{width:24px;height:24px}
+
+/* ---------- Mobile menu ---------- */
+.mobile-menu{
+  position:fixed;inset:var(--appbar-h) 0 auto 0;z-index:99;
+  background:color-mix(in srgb,var(--surface) 96%,transparent);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--outline-variant);
+  padding:14px;display:flex;flex-direction:column;gap:4px;
+  transform:translateY(-10px);opacity:0;pointer-events:none;
+  transition:transform .3s ease,opacity .3s ease;
+}
+.mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+.mobile-menu a{padding:13px 18px;border-radius:16px;font-weight:700;font-size:1.03rem}
+.mobile-menu a:hover{background:var(--surface-high)}
+.mobile-menu .btn{margin-top:8px}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{position:relative;overflow:hidden;padding:clamp(56px,8vw,104px) 0}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.orb-1{width:540px;height:540px;top:-190px;left:-150px;background:radial-gradient(circle,rgba(223,226,120,.14),transparent 65%)}
+.orb-2{width:500px;height:500px;bottom:-210px;right:-170px;background:radial-gradient(circle,rgba(166,217,192,.12),transparent 65%)}
+.hero-inner{
+  position:relative;z-index:1;
+  max-width:860px;margin-inline:auto;text-align:center;
+}
+.hero-eyebrow{margin-bottom:22px}
+.hero-eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--tertiary);box-shadow:0 0 10px var(--tertiary)}
+.hero h1{
+  font-size:clamp(2.6rem,5.4vw,4.1rem);
+  line-height:1.06;font-weight:900;letter-spacing:-.03em;
+  text-wrap:balance;
+}
+.hero h1 .accent{
+  background:linear-gradient(100deg,var(--primary) 10%,var(--tertiary) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{margin:22px auto 0;max-width:52ch;color:var(--on-surface-variant);font-size:clamp(1rem,1.3vw,1.12rem);font-weight:500}
+.hero-cta{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:32px}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,auto);justify-content:center;gap:clamp(22px,3.4vw,44px);
+  margin-top:52px;padding-top:28px;border-top:1px solid var(--outline-variant);
+}
+.stat b{
+  display:block;font-size:clamp(1.4rem,2.2vw,1.9rem);font-weight:900;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;color:var(--primary);
+}
+.stat span{font-size:.82rem;font-weight:600;color:var(--on-surface-variant)}
+
+
+/* ============================================================
+   How it works
+   ============================================================ */
+.flow-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.flow-card{
+  position:relative;background:var(--surface);border:1px solid var(--outline-variant);
+  border-radius:var(--radius-lg);padding:26px 22px;
+  transition:transform .3s cubic-bezier(.2,.9,.3,1.18),border-color .25s ease;
+}
+.flow-card:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--tertiary) 40%,var(--outline-variant))}
+.flow-num{
+  width:42px;height:42px;border-radius:14px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--primary-container);color:var(--on-primary-container);
+  font-weight:900;font-size:1.05rem;
+  transition:border-radius .35s cubic-bezier(.2,.9,.3,1.18),transform .35s cubic-bezier(.2,.9,.3,1.18);
+}
+.flow-card:nth-child(2n) .flow-num{background:var(--tertiary-container);color:var(--on-tertiary-container)}
+.flow-card:hover .flow-num{border-radius:50%;transform:rotate(-8deg)}
+.flow-card h3{font-size:1.05rem;font-weight:800;margin-bottom:7px;letter-spacing:-.01em}
+.flow-card p{font-size:.9rem;color:var(--on-surface-variant)}
+
+/* ============================================================
+   Tools
+   ============================================================ */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feature-card{
+  background:var(--surface);border:1px solid var(--outline-variant);
+  border-radius:var(--radius-xl);padding:28px 26px;display:flex;flex-direction:column;align-items:flex-start;
+  transition:transform .3s cubic-bezier(.2,.9,.3,1.18),border-color .25s ease;
+}
+.feature-card:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--primary) 45%,var(--outline-variant))}
+.feature-icon{
+  width:52px;height:52px;border-radius:17px;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--primary-container);color:var(--on-primary-container);
+  transition:border-radius .35s cubic-bezier(.2,.9,.3,1.18),transform .35s cubic-bezier(.2,.9,.3,1.18);
+}
+.feature-card:nth-child(3n+2) .feature-icon{background:var(--tertiary-container);color:var(--on-tertiary-container)}
+.feature-card:nth-child(3n+3) .feature-icon{background:var(--secondary-container);color:var(--on-secondary-container)}
+.feature-card:hover .feature-icon{border-radius:26px;transform:rotate(-6deg) scale(1.05)}
+.feature-icon svg{width:26px;height:26px}
+.feature-card h3{font-size:1.12rem;font-weight:800;letter-spacing:-.01em;margin-bottom:8px}
+.feature-card p{font-size:.9rem;color:var(--on-surface-variant);flex:1}
+.feature-count{margin-top:16px}
+
+/* ============================================================
+   Presets
+   ============================================================ */
+.presets{background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 100%)}
+.preset-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.preset-card{
+  background:var(--surface);border:1px solid var(--outline-variant);
+  border-radius:var(--radius-xl);padding:clamp(24px,3vw,34px);
+}
+.preset-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:8px}
+.preset-title{font-size:1.3rem;font-weight:900;letter-spacing:-.02em}
+.preset-desc{margin-top:4px;color:var(--on-surface-variant);font-size:.92rem;max-width:44ch;margin-bottom:20px}
+.preset-tweaks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.preset-tweak{
+  display:flex;align-items:center;gap:9px;
+  background:var(--surface-container);border:1px solid var(--outline-variant);
+  border-radius:var(--radius-md);padding:9px 12px;font-size:.84rem;font-weight:600;
+  min-width:0;
+}
+.preset-tweak svg{width:16px;height:16px;padding:2px;flex:none;border-radius:50%;background:var(--primary-container);color:var(--on-primary-container)}
+.preset-tweak span{overflow:hidden;text-overflow:ellipsis}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq{max-width:760px;margin-inline:auto}
+.faq-item{background:var(--surface);border:1px solid var(--outline-variant);border-radius:var(--radius-lg);margin-bottom:12px;overflow:hidden}
+.faq-btn{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 24px;text-align:left;font-weight:700;font-size:1.02rem;
+  transition:background-color .2s ease;
+}
+.faq-btn:hover{background:color-mix(in srgb,var(--on-surface) 4%,transparent)}
+.faq-btn .chev{
+  flex:none;width:20px;height:20px;color:var(--on-surface-variant);
+  transition:transform .3s cubic-bezier(.2,.9,.3,1.18),color .2s ease;
+}
+.faq-item.open .faq-btn .chev{transform:rotate(180deg);color:var(--primary)}
+.faq-answer{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.faq-inner{overflow:hidden;min-height:0}
+.faq-inner p{margin:0;padding:0 24px 20px;color:var(--on-surface-variant);font-size:.95rem}
+.faq-item.open .faq-answer{grid-template-rows:1fr}
+
+/* ============================================================
+   Download CTA + footer
+   ============================================================ */
+.cta-wrap{
+  position:relative;overflow:hidden;text-align:center;
+  background:linear-gradient(160deg,var(--surface-high) 0%,var(--surface) 60%);
+  border:1px solid var(--outline-variant);
+  border-radius:32px;padding:clamp(40px,6vw,70px) clamp(24px,5vw,60px);
+}
+.cta-wrap::before{
+  content:"";position:absolute;inset:-40%;pointer-events:none;
+  background:
+    radial-gradient(38% 60% at 18% 0%,rgba(223,226,120,.13),transparent 70%),
+    radial-gradient(38% 60% at 82% 100%,rgba(166,217,192,.11),transparent 70%);
+}
+.cta-wrap > *{position:relative}
+.cta-wrap h2{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:900;letter-spacing:-.02em;line-height:1.12;text-wrap:balance}
+.cta-wrap p{margin:14px auto 0;max-width:52ch;color:var(--on-surface-variant);font-size:1.02rem}
+.cta-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:30px}
+.cta-meta{margin-top:18px;font-size:.82rem;font-weight:600;color:var(--on-surface-variant)}
+
+footer{border-top:1px solid var(--outline-variant);padding:54px 0 36px;background:var(--bg)}
+.foot-grid{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start;justify-content:space-between}
+.foot-brand{max-width:300px}
+.foot-brand p{font-size:.9rem;color:var(--on-surface-variant);margin-top:12px}
+.foot-col b{display:block;font-size:.76rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--on-surface-variant);margin-bottom:12px}
+.foot-col a{display:block;padding:5px 0;font-size:.9rem;font-weight:600;transition:color .2s ease,transform .25s cubic-bezier(.2,.9,.3,1.18)}
+.foot-col a:hover{color:var(--primary);transform:translateX(4px)}
+.foot-bottom{
+  margin-top:40px;padding-top:22px;border-top:1px solid var(--outline-variant);
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
+  font-size:.82rem;color:var(--on-surface-variant);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:980px){
+  .flow-grid{grid-template-columns:repeat(2,1fr)}
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:720px){
+  .appbar-nav{display:none}
+  .menu-btn{display:inline-flex}
+  .feature-grid,.flow-grid,.preset-grid{grid-template-columns:1fr}
+  .preset-tweaks{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:repeat(2,1fr);justify-content:stretch;gap:20px}
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-blob" viewBox="-58 -58 116 116">
+      <path d="M 53.20 0.00 C 53.20 1.14 52.76 2.33 52.15 3.42 C 51.55 4.51 50.46 5.54 49.57 6.53 C 48.68 7.51 47.55 8.38 46.82 9.31 C 46.09 10.24 45.47 11.11 45.21 12.11 C 44.94 13.12 45.04 14.17 45.20 15.34 C 45.37 16.51 45.92 17.84 46.19 19.13 C 46.47 20.43 46.89 21.87 46.87 23.12 C 46.85 24.36 46.64 25.61 46.07 26.60 C 45.50 27.59 44.52 28.40 43.45 29.04 C 42.39 29.68 40.93 30.03 39.67 30.44 C 38.41 30.84 36.99 31.03 35.89 31.48 C 34.79 31.92 33.83 32.36 33.09 33.09 C 32.36 33.83 31.92 34.79 31.48 35.89 C 31.03 36.99 30.84 38.41 30.44 39.67 C 30.03 40.93 29.68 42.39 29.04 43.45 C 28.40 44.52 27.59 45.50 26.60 46.07 C 25.61 46.64 24.36 46.85 23.12 46.87 C 21.87 46.89 20.43 46.47 19.13 46.19 C 17.84 45.92 16.51 45.37 15.34 45.20 C 14.17 45.04 13.12 44.94 12.11 45.21 C 11.11 45.47 10.24 46.09 9.31 46.82 C 8.38 47.55 7.51 48.68 6.53 49.57 C 5.54 50.46 4.51 51.55 3.42 52.15 C 2.33 52.76 1.14 53.20 0.00 53.20 C -1.14 53.20 -2.33 52.76 -3.42 52.15 C -4.51 51.55 -5.54 50.46 -6.53 49.57 C -7.51 48.68 -8.38 47.55 -9.31 46.82 C -10.24 46.09 -11.11 45.47 -12.11 45.21 C -13.12 44.94 -14.17 45.04 -15.34 45.20 C -16.51 45.37 -17.84 45.92 -19.13 46.19 C -20.43 46.47 -21.87 46.89 -23.12 46.87 C -24.36 46.85 -25.61 46.64 -26.60 46.07 C -27.59 45.50 -28.40 44.52 -29.04 43.45 C -29.68 42.39 -30.03 40.93 -30.44 39.67 C -30.84 38.41 -31.03 36.99 -31.48 35.89 C -31.92 34.79 -32.36 33.83 -33.09 33.09 C -33.83 32.36 -34.79 31.92 -35.89 31.48 C -36.99 31.03 -38.41 30.84 -39.67 30.44 C -40.93 30.03 -42.39 29.68 -43.45 29.04 C -44.52 28.40 -45.50 27.59 -46.07 26.60 C -46.64 25.61 -46.85 24.36 -46.87 23.12 C -46.89 21.87 -46.47 20.43 -46.19 19.13 C -45.92 17.84 -45.37 16.51 -45.20 15.34 C -45.04 14.17 -44.94 13.12 -45.21 12.11 C -45.47 11.11 -46.09 10.24 -46.82 9.31 C -47.55 8.38 -48.68 7.51 -49.57 6.53 C -50.46 5.54 -51.55 4.51 -52.15 3.42 C -52.76 2.33 -53.20 1.14 -53.20 0.00 C -53.20 -1.14 -52.76 -2.33 -52.15 -3.42 C -51.55 -4.51 -50.46 -5.54 -49.57 -6.53 C -48.68 -7.51 -47.55 -8.38 -46.82 -9.31 C -46.09 -10.24 -45.47 -11.11 -45.21 -12.11 C -44.94 -13.12 -45.04 -14.17 -45.20 -15.34 C -45.37 -16.51 -45.92 -17.84 -46.19 -19.13 C -46.47 -20.43 -46.89 -21.87 -46.87 -23.12 C -46.85 -24.36 -46.64 -25.61 -46.07 -26.60 C -45.50 -27.59 -44.52 -28.40 -43.45 -29.04 C -42.39 -29.68 -40.93 -30.03 -39.67 -30.44 C -38.41 -30.84 -36.99 -31.03 -35.89 -31.48 C -34.79 -31.92 -33.83 -32.36 -33.09 -33.09 C -32.36 -33.83 -31.92 -34.79 -31.48 -35.89 C -31.03 -36.99 -30.84 -38.41 -30.44 -39.67 C -30.03 -40.93 -29.68 -42.39 -29.04 -43.45 C -28.40 -44.52 -27.59 -45.50 -26.60 -46.07 C -25.61 -46.64 -24.36 -46.85 -23.12 -46.87 C -21.87 -46.89 -20.43 -46.47 -19.13 -46.19 C -17.84 -45.92 -16.51 -45.37 -15.34 -45.20 C -14.17 -45.04 -13.12 -44.94 -12.11 -45.21 C -11.11 -45.47 -10.24 -46.09 -9.31 -46.82 C -8.38 -47.55 -7.51 -48.68 -6.53 -49.57 C -5.54 -50.46 -4.51 -51.55 -3.42 -52.15 C -2.33 -52.76 -1.14 -53.20 -0.00 -53.20 C 1.14 -53.20 2.33 -52.76 3.42 -52.15 C 4.51 -51.55 5.54 -50.46 6.53 -49.57 C 7.51 -48.68 8.38 -47.55 9.31 -46.82 C 10.24 -46.09 11.11 -45.47 12.11 -45.21 C 13.12 -44.94 14.17 -45.04 15.34 -45.20 C 16.51 -45.37 17.84 -45.92 19.13 -46.19 C 20.43 -46.47 21.87 -46.89 23.12 -46.87 C 24.36 -46.85 25.61 -46.64 26.60 -46.07 C 27.59 -45.50 28.40 -44.52 29.04 -43.45 C 29.68 -42.39 30.03 -40.93 30.44 -39.67 C 30.84 -38.41 31.03 -36.99 31.48 -35.89 C 31.92 -34.79 32.36 -33.83 33.09 -33.09 C 33.83 -32.36 34.79 -31.92 35.89 -31.48 C 36.99 -31.03 38.41 -30.84 39.67 -30.44 C 40.93 -30.03 42.39 -29.68 43.45 -29.04 C 44.52 -28.40 45.50 -27.59 46.07 -26.60 C 46.64 -25.61 46.85 -24.36 46.87 -23.12 C 46.89 -21.87 46.47 -20.43 46.19 -19.13 C 45.92 -17.84 45.37 -16.51 45.20 -15.34 C 45.04 -14.17 44.94 -13.12 45.21 -12.11 C 45.47 -11.11 46.09 -10.24 46.82 -9.31 C 47.55 -8.38 48.68 -7.51 49.57 -6.53 C 50.46 -5.54 51.55 -4.51 52.15 -3.42 C 52.76 -2.33 53.20 -1.14 53.20 0.00 Z"/>
+    </symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></symbol>
+    <symbol id="i-can" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 6v13a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M9.5 12l1.8 1.8L14.7 10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3-8 4 16 3-8h6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4V7h4v4h4v4h-4v4h-4v-4H6z"/><path d="M4 15a8 8 0 1 0 16 0 8 8 0 0 0-16 0z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M12 13a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/><path d="M5 8a7 7 0 1 1 14 0"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  </defs>
+</svg>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ================= App bar ================= -->
+<header class="appbar" id="appbar">
+  <div class="wrap appbar-inner">
+    <a class="brand" href="#top" aria-label="John’s Windows Fixer — back to top">
+      <svg class="brand-logo" aria-hidden="true" focusable="false"><use href="#i-blob" fill="var(--primary)"/></svg>
+      <span>John’s Windows Fixer<small>System utility</small></span>
+    </a>
+    <nav class="appbar-nav" aria-label="Primary">
+      <a class="nav-link" href="#how">How it works</a>
+      <a class="nav-link" href="#tools">Tools</a>
+      <a class="nav-link" href="#presets">Presets</a>
+      <a class="nav-link" href="#faq">FAQ</a>
+    </nav>
+    <div class="appbar-actions">
+      <a class="btn btn-filled btn-sm" href="#download">Get the app</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#how">How it works</a>
+  <a href="#tools">Tools</a>
+  <a href="#presets">Presets</a>
+  <a href="#faq">FAQ</a>
+  <a class="btn btn-filled" href="#download">Get the app</a>
+</div>
+
+<main id="main">
+
+<!-- ================= Hero ================= -->
+<section class="hero" id="top">
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <span class="chip hero-eyebrow"><span class="dot" aria-hidden="true"></span>For Windows 11 &amp; 10</span>
+    <h1>Make Windows feel<br><span class="accent">new again.</span></h1>
+    <p class="hero-sub">Bloatware, background apps, and startup junk slow your PC down. John’s Windows Fixer gives you clear Windows controls for performance, storage, privacy, startup apps, background activity, and debloating — with reversible toggles and a restore point offered first.</p>
+    <div class="hero-cta">
+      <a class="btn btn-filled btn-lg" href="#download">Get the app</a>
+      <a class="btn btn-tonal btn-lg" href="#how">See how it works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>30+</b><span>Verified tweaks</span></div>
+      <div class="stat"><b>2</b><span>Smart presets</span></div>
+      <div class="stat"><b>6</b><span>App pages</span></div>
+      <div class="stat"><b>23</b><span>Reversible toggles</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= How it works ================= -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">How it works</span>
+      <h2>From slow to fixed in four steps</h2>
+      <p>This is exactly what happens when you open the app — no hidden steps, no surprises.</p>
+    </div>
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div class="flow-num">1</div>
+        <h3>Start in standard mode</h3>
+        <p>Use the app without elevation. Restart as administrator only when you want to unlock settings that require it; those controls are clearly marked.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">2</div>
+        <h3>Pick Gaming or Productivity</h3>
+        <p>Asked once on first launch. The app applies the matching tweaks automatically.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">3</div>
+        <h3>Choose your safeguards</h3>
+        <p>A restore point is offered before the first run. Storage cleanup removes temp data and Recycle Bin contents; debloat removes selected Store apps.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">4</div>
+        <h3>Hit Optimize</h3>
+        <p>Watch each tweak apply with plain-English status. An activity log keeps a record of everything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Tools ================= -->
+<section id="tools">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">The tools</span>
+      <h2>Six pages. One app. Clear control.</h2>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-card">
+        <div class="feature-icon"><svg aria-hidden="true"><use href="#i-zap"/></svg></div>
+        <h3>Performance</h3>
+        <p>Game Mode, HAGS, fullscreen optimizations, Game Bar &amp; DVR, visual effects, power plans, and Cloudflare DNS.</p>
+        <span class="chip feature-count">16 settings</span>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon"><svg aria-hidden="true"><use href="#i-can"/></svg></div>
+        <h3>Storage</h3>
+        <p>Quick Disk Cleanup, temp files, Storage Sense, SSD trim, reserved storage, and hibernation.</p>
+        <span class="chip feature-count">6 settings</span>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></div>
+        <h3>Privacy</h3>
+        <p>Telemetry, Bing &amp; Copilot in search, tips and suggestions, 365 ads, find-my-device, location, and activity history.</p>
+        <span class="chip feature-count">9 settings</span>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon"><svg aria-hidden="true"><use href="#i-clock"/></svg></div>
+        <h3>Startup</h3>
+        <p>See apps that start with Windows, optionally read Windows startup measurements, and turn off the ones you do not need.</p>
+        <span class="chip feature-count">Optional measurement</span>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon"><svg aria-hidden="true"><use href="#i-pulse"/></svg></div>
+        <h3>Background apps</h3>
+        <p>See installed Store apps that can run in the background and block activity for the ones you choose.</p>
+        <span class="chip feature-count">One click</span>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon"><svg aria-hidden="true"><use href="#i-grid"/></svg></div>
+        <h3>Debloat</h3>
+        <p>Review selected preinstalled Store apps with Recommended, Optional, or Caution labels, then remove only the ones you choose.</p>
+        <span class="chip feature-count">48 catalog entries</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Presets ================= -->
+<section class="presets" id="presets">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Smart presets</span>
+      <h2>Two modes. Zero guesswork.</h2>
+      <p>Asked once on first launch — switch anytime. Each preset applies the tweaks that match how you use your PC.</p>
+    </div>
+    <div class="preset-grid">
+      <div class="preset-card">
+        <div class="preset-head">
+          <h3 class="preset-title">Gaming preset</h3>
+          <span class="chip">15 actions</span>
+        </div>
+        <p class="preset-desc">Applies 15 configured actions for gaming, network, Windows features, visual effects, and storage.</p>
+        <ul class="preset-tweaks">
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Cloudflare DNS (1.1.1.1)</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Services set to manual</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Delivery optimization off</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Fullscreen optimizations on</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Windowed-game optimizations</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Game Mode on</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>HAGS (if supported)</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Visual effects: balanced</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Ultimate Performance power plan</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Hibernation off</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Quick disk cleanup</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Temp files removed</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>SSD trim</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Consumer features off</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Windows AI removed</span></li>
+        </ul>
+      </div>
+      <div class="preset-card">
+        <div class="preset-head">
+          <h3 class="preset-title">Productivity preset</h3>
+          <span class="chip">12 actions</span>
+        </div>
+        <p class="preset-desc">Applies 12 configured actions for office work and browsing, with balanced power and fewer distractions.</p>
+        <ul class="preset-tweaks">
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Cloudflare DNS (1.1.1.1)</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Services set to manual</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Delivery optimization off</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Visual effects: balanced</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Balanced power plan</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>HAGS (if supported)</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Storage Sense on</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Quick disk cleanup</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Temp files removed</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>SSD trim</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Telemetry off</span></li>
+          <li class="preset-tweak"><svg aria-hidden="true"><use href="#i-check"/></svg><span>Consumer features off</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="sec-eyebrow">FAQ</span>
+      <h2>Questions, answered</h2>
+    </div>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq1">
+          Is it safe to use?
+          <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="faq-answer" id="faq1" aria-hidden="true"><div class="faq-inner"><p>It is designed to be transparent: reversible toggles can be switched back, one-time actions are labeled as actions, and the app offers a restore point before the first run. Removed Store apps can be installed again from Microsoft Store.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq2">
+          Does it need administrator access?
+          <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="faq-answer" id="faq2" aria-hidden="true"><div class="faq-inner"><p>No. Standard mode works without elevation. Settings that need administrator permission are dimmed with an explanation; restart as administrator when you want to use them. Creating a restore point also requires administrator permission.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq3">
+          Will it delete my files?
+          <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="faq-answer" id="faq3" aria-hidden="true"><div class="faq-inner"><p>Storage cleanup removes temporary files, cache, and Recycle Bin contents. Debloat uninstalls selected preinstalled Store apps, which you can install again from Microsoft Store. The app does not claim that all files are untouched: review each action before running it.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq4">
+          How is this different from other PC cleaners?
+          <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="faq-answer" id="faq4" aria-hidden="true"><div class="faq-inner"><p>No scare tactics or upsells. Each setting explains what it changes, and one-time actions are labeled separately from reversible toggles.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq5">
+          Do I need to be technical?
+          <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="faq-answer" id="faq5" aria-hidden="true"><div class="faq-inner"><p>No. Debloat items are labeled Recommended, Optional, or Caution, and startup apps are rated by impact — so you always know what matters.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq6">
+          Which Windows versions are supported?
+          <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="faq-answer" id="faq6" aria-hidden="true"><div class="faq-inner"><p>Windows 11 and Windows 10. The app detects your system, skips unsupported tweaks (like HAGS on unsupported GPUs), and dims them on PCs where they can’t apply.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq7">
+          What does it cost?
+          <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="faq-answer" id="faq7" aria-hidden="true"><div class="faq-inner"><p>Pricing is not published on this page yet. The app itself has no account requirement, ads, or telemetry of its own.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Download CTA ================= -->
+<section id="download">
+  <div class="wrap">
+    <div class="cta-wrap">
+      <span class="sec-eyebrow">Get the app</span>
+      <h2>Own it once. Fix it forever.</h2>
+      <p>Use standard mode for the settings your account can change, or restart elevated for the rest. No account is required, and the app has no ads or telemetry of its own.</p>
+      <div class="cta-actions">
+        <a class="btn btn-filled btn-lg" href="#download">Get the app</a>
+      </div>
+      <p class="cta-meta">Windows 11 &amp; 10 · Standard mode available · Admin mode optional</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= Footer ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="John’s Windows Fixer — back to top">
+          <svg class="brand-logo" aria-hidden="true" focusable="false"><use href="#i-blob" fill="var(--primary)"/></svg>
+          <span>John’s Windows Fixer<small>System utility</small></span>
+        </a>
+        <p>A reversible system optimizer for Windows — no ads, no accounts, no telemetry.</p>
+      </div>
+      <div class="foot-col">
+        <b>Product</b>
+        <a href="#tools">Tools</a>
+        <a href="#how">How it works</a>
+        <a href="#presets">Presets</a>
+        <a href="#faq">FAQ</a>
+        <a href="#download">Get the app</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 John’s Windows Fixer. Not affiliated with Microsoft.</span>
+      <span translate="no">Made with Material 3 Expressive</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- app bar scroll state ---------- */
+const appbar = document.getElementById('appbar');
+addEventListener('scroll', () => {
+  appbar.classList.toggle('scrolled', scrollY > 8);
+}, {passive:true});
+
+/* ---------- mobile menu ---------- */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+function setMenu(open){
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  mobileMenu.classList.toggle('open', open);
+}
+menuBtn.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+addEventListener('keydown', e => { if(e.key === 'Escape') setMenu(false); });
+
+/* ---------- FAQ accordion (one open at a time) ---------- */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const btn = item.querySelector('.faq-btn');
+  const answer = item.querySelector('.faq-answer');
+  btn.addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(other => {
+      other.classList.remove('open');
+      other.querySelector('.faq-answer').setAttribute('aria-hidden', 'true');
+      other.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+    });
+    if(!wasOpen){
+      item.classList.add('open');
+      answer.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+/* Download buttons stay disabled until a real release URL is configured. */
+document.querySelectorAll('a[href="#"]').forEach(a => {
+  a.setAttribute('aria-disabled', 'true');
+  a.addEventListener('click', event => event.preventDefault());
+});
+</script>
+</body>
+</html>

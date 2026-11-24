@@ -1,0 +1,735 @@
+{
+  "CloudflareDNS": {
+    "Content": "Cloudflare DNS - Set",
+    "Description": "Sets DNS to Cloudflare (1.1.1.1, 1.0.0.1) for faster and more private internet browsing.",
+    "category": "Performance",
+    "Type": "Button",
+    "ControlType": "button",
+    "ActionLabel": "Apply",
+    "InvokeScript": [
+      "Get-DnsClientServerAddress -AddressFamily IPv4 | ForEach-Object { $interface = $_.InterfaceAlias; Set-DnsClientServerAddress -InterfaceAlias $interface -ServerAddresses ('1.1.1.1', '1.0.0.1') }"
+    ],
+    "UndoScript": [
+      "Get-DnsClientServerAddress -AddressFamily IPv4 | ForEach-Object { Set-DnsClientServerAddress -InterfaceAlias $_.InterfaceAlias -ResetServerAddresses }"
+    ],
+    "link": "https://cloudflare-dns.com/"
+  },
+  "WPFTweaksHiber": {
+    "RequiresAdmin": true,
+    "Content": "Hibernation - Disable",
+    "Description": "Hibernation is really meant for laptops as it saves what's in memory before turning the PC off. It really should never be used.",
+    "category": "Storage",
+    "registry": [
+      {
+        "Path": "HKLM:\\System\\CurrentControlSet\\Control\\Session Manager\\Power",
+        "Name": "HibernateEnabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FlyoutMenuSettings",
+        "Name": "ShowHibernateOption",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      }
+    ],
+    "InvokeScript": [
+      "powercfg.exe /hibernate off"
+    ],
+    "UndoScript": [
+      "powercfg.exe /hibernate on"
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/hiber"
+  },
+  "WPFTweaksServices": {
+    "RequiresAdmin": true,
+    "Content": "Services - Set to Manual",
+    "ControlType": "button",
+    "ActionLabel": "Apply",
+    "Description": "Sets some services to Manual startup and adjusts the SvcHostSplitThresholdInKB registry value to better match system memory, which can significantly reduce the number of svchost.exe processes.",
+    "category": "Performance",
+    "service": [
+      {
+        "Name": "CscService",
+        "StartupType": "Manual",
+        "OriginalType": "Manual"
+      },
+      {
+        "Name": "DiagTrack",
+        "StartupType": "Manual",
+        "OriginalType": "Automatic"
+      },
+      {
+        "Name": "MapsBroker",
+        "StartupType": "Manual",
+        "OriginalType": "Automatic"
+      },
+      {
+        "Name": "StorSvc",
+        "StartupType": "Manual",
+        "OriginalType": "Automatic"
+      },
+      {
+        "Name": "SharedAccess",
+        "StartupType": "Manual",
+        "OriginalType": "Automatic"
+      }
+    ],
+    "InvokeScript": [
+      "$Memory = (Get-CimInstance Win32_PhysicalMemory | Measure-Object Capacity -Sum).Sum / 1KB; Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control' -Name SvcHostSplitThresholdInKB -Value $Memory"
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/services"
+  },
+  "WPFTweaksTelemetry": {
+    "RequiresAdmin": true,
+    "Content": "Telemetry - Reduce",
+    "Description": "Reduces Windows telemetry and activity reporting through reversible policy settings.",
+    "category": "Privacy",
+    "registry": [
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
+        "Name": "Enabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Privacy",
+        "Name": "TailoredExperiencesWithDiagnosticDataEnabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Speech_OneCore\\Settings\\OnlineSpeechPrivacy",
+        "Name": "HasAccepted",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Input\\TIPC",
+        "Name": "Enabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\InputPersonalization",
+        "Name": "RestrictImplicitInkCollection",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\InputPersonalization",
+        "Name": "RestrictImplicitTextCollection",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\InputPersonalization\\TrainedDataStore",
+        "Name": "HarvestContacts",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Personalization\\Settings",
+        "Name": "AcceptedPrivacyPolicy",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection",
+        "Name": "AllowTelemetry",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+        "Name": "Start_TrackProgs",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+        "Name": "PublishUserActivities",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Siuf\\Rules",
+        "Name": "NumberOfSIUFInPeriod",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/telemetry"
+  },
+  "WPFTweaksDeliveryOptimization": {
+    "RequiresAdmin": true,
+    "Content": "Delivery Optimization - Disable",
+    "Description": "Stops Windows from using your bandwidth to upload updates to other PCs on the internet or local network.",
+    "category": "Performance",
+    "registry": [
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization",
+        "Name": "DODownloadMode",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/deliveryoptimization"
+  },
+  "WPFTweaksDiskCleanup": {
+    "Content": "Quick Storage Cleanup",
+    "Description": "Quickly removes temporary files and empties the Recycle Bin without opening the slow Disk Cleanup wizard.",
+    "category": "Storage",
+    "ControlType": "button",
+    "ActionLabel": "Clean now",
+    "InvokeScript": [
+      "$targets = @($env:TEMP, (Join-Path $env:WINDIR 'Temp'), (Join-Path $env:LOCALAPPDATA 'Microsoft\\Windows\\INetCache')); foreach ($target in $targets) { if (Test-Path -LiteralPath $target) { Get-ChildItem -LiteralPath $target -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue } }; Clear-RecycleBin -Force -ErrorAction SilentlyContinue"
+    ],
+    "Timeout": 120,
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/diskcleanup"
+  },
+  "WPFTweaksDeleteTempFiles": {
+    "Content": "Temporary Files - Remove",
+    "Description": "Removes temporary files from your user and Windows temporary folders.",
+    "category": "Storage",
+    "ControlType": "button",
+    "ActionLabel": "Remove",
+    "InvokeScript": [
+      "Remove-Item -Path \"$Env:Temp\\*\" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path \"$Env:SystemRoot\\Temp\\*\" -Recurse -Force -ErrorAction SilentlyContinue"
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/deletetempfiles"
+  },
+  "WPFTweaksDisableExplorerAutoDiscovery": {
+    "Content": "File Explorer Folder Views - Reset",
+    "Description": "Resets saved folder view choices so Explorer can rebuild them. This is a one-time reset, not a toggle.",
+    "category": "Performance",
+    "ControlType": "button",
+    "ActionLabel": "Reset views",
+    "InvokeScript": [
+      "Remove-Item -Path 'HKCU:\\Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\Shell\\Bags' -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path 'HKCU:\\Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\Shell\\BagMRU' -Recurse -Force -ErrorAction SilentlyContinue"
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/disableexplorerautodiscovery"
+  },
+  "WPFTweaksActivity": {
+    "RequiresAdmin": true,
+    "Content": "Activity History - Disable",
+    "Description": "Erases recent docs, clipboard, and run history.",
+    "category": "Privacy",
+    "registry": [
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+        "Name": "EnableActivityFeed",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+        "Name": "PublishUserActivities",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+        "Name": "UploadUserActivities",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/activity"
+  },
+  "WPFTweaksConsumerFeatures": {
+    "RequiresAdmin": true,
+    "Content": "ConsumerFeatures - Disable",
+    "Description": "Stops promoted app installs and reduces app suggestions from Microsoft Store content.",
+    "category": "Privacy",
+    "registry": [
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+        "Name": "DisableWindowsConsumerFeatures",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/consumerfeatures"
+  },
+  "WPFTweaksDisableFSO": {
+    "Content": "Fullscreen Optimizations - Disable",
+    "Description": "Disables FSO in all applications. NOTE: This will disable Color Management in Exclusive Fullscreen.",
+    "category": "Performance",
+    "registry": [
+      {
+        "Path": "HKCU:\\System\\GameConfigStore",
+        "Name": "GameDVR_DXGIHonorFSEWindowsCompatible",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "0"
+      }
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/z--advanced-tweaks---caution/disablefso"
+  },
+  "WPFTweaksReservedStorage": {
+    "RequiresAdmin": true,
+    "Content": "Reserved Storage - Disable",
+    "Description": "Disables Windows Reserved Storage (7–10 GB held for updates and temporary files). This is a one-time system action; re-enable it before major feature updates.",
+    "category": "Storage",
+    "ControlType": "button",
+    "ActionLabel": "Disable",
+    "InvokeScript": [
+      "DISM /Online /Set-ReservedStorageState /State:Disabled"
+    ],
+    "link": "https://winutil.christitus.com/code-reference/winutil.christitus.com/code-reference/tweaks/z--advanced-tweaks---caution/reservedstorage"
+  },
+  "WPFTweaksDisplay": {
+    "Content": "Visual effects",
+    "ControlType": "select",
+    "DefaultOption": "balanced",
+    "PresetOption": "balanced",
+    "Description": "Choose how Windows balances appearance and responsiveness.",
+    "category": "Performance",
+    "registry": [
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VisualEffects",
+        "Name": "VisualFXSetting",
+        "Value": "3",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      },
+      {
+        "Path": "HKCU:\\Control Panel\\Desktop",
+        "Name": "FontSmoothing",
+        "Value": "2",
+        "Type": "String",
+        "OriginalValue": "1"
+      },
+      {
+        "Path": "HKCU:\\Control Panel\\Desktop",
+        "Name": "FontSmoothingType",
+        "Value": "2",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      }
+    ],
+    "InvokeScript": [
+      "Set-ItemProperty -Path \"HKCU:\\Control Panel\\Desktop\" -Name \"UserPreferencesMask\" -Type Binary -Value ([byte[]](144,18,7,128,16,0,0,0))",
+      "RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters"
+    ],
+    "UndoScript": [
+      "Remove-ItemProperty -Path \"HKCU:\\Control Panel\\Desktop\" -Name \"UserPreferencesMask\" -ErrorAction SilentlyContinue",
+      "RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters"
+    ],
+    "Options": [
+      {
+        "key": "fancy",
+        "label": "Fancy",
+        "registry": [
+          { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VisualEffects", "Name": "VisualFXSetting", "Value": "1", "Type": "DWord" },
+          { "Path": "HKCU:\\Control Panel\\Desktop", "Name": "FontSmoothing", "Value": "2", "Type": "String" },
+          { "Path": "HKCU:\\Control Panel\\Desktop", "Name": "FontSmoothingType", "Value": "2", "Type": "DWord" }
+        ],
+        "InvokeScript": [
+          "Set-ItemProperty -Path \"HKCU:\\Control Panel\\Desktop\" -Name \"UserPreferencesMask\" -Type Binary -Value ([byte[]](255,255,255,127,16,0,0,0))",
+          "RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters"
+        ]
+      },
+      {
+        "key": "balanced",
+        "label": "Balanced",
+        "registry": [
+          { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VisualEffects", "Name": "VisualFXSetting", "Value": "3", "Type": "DWord" },
+          { "Path": "HKCU:\\Control Panel\\Desktop", "Name": "FontSmoothing", "Value": "2", "Type": "String" },
+          { "Path": "HKCU:\\Control Panel\\Desktop", "Name": "FontSmoothingType", "Value": "2", "Type": "DWord" }
+        ],
+        "InvokeScript": [
+          "Set-ItemProperty -Path \"HKCU:\\Control Panel\\Desktop\" -Name \"UserPreferencesMask\" -Type Binary -Value ([byte[]](144,18,7,128,16,0,0,0))",
+          "RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters"
+        ]
+      },
+      {
+        "key": "fast",
+        "label": "Fast",
+        "registry": [
+          { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VisualEffects", "Name": "VisualFXSetting", "Value": "2", "Type": "DWord" },
+          { "Path": "HKCU:\\Control Panel\\Desktop", "Name": "FontSmoothing", "Value": "0", "Type": "String" },
+          { "Path": "HKCU:\\Control Panel\\Desktop", "Name": "FontSmoothingType", "Value": "0", "Type": "DWord" }
+        ],
+        "InvokeScript": [
+          "Set-ItemProperty -Path \"HKCU:\\Control Panel\\Desktop\" -Name \"UserPreferencesMask\" -Type Binary -Value ([byte[]](144,18,3,128,16,0,0,0))",
+          "RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters"
+        ]
+      }
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/z--advanced-tweaks---caution/display"
+  },
+  "WPFTweaksEnableFSO": {
+    "Content": "Fullscreen Optimizations - Enable",
+    "Description": "Keeps Windows fullscreen optimizations enabled for compatible games.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Enable",
+    "registry": [
+      {
+        "Path": "HKCU:\\System\\GameConfigStore",
+        "Name": "GameDVR_DXGIHonorFSEWindowsCompatible",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://support.microsoft.com/windows/optimizations-for-windowed-games"
+  },
+  "WPFTweaksBalancedPowerPlan": {
+    "Content": "Balanced Power Plan",
+    "Description": "Uses Windows Balanced power mode for everyday office work and browsing.",
+    "category": "Performance",
+    "ControlType": "button",
+    "ActionLabel": "Apply",
+    "InvokeScript": [
+      "powercfg.exe /setactive 381b4222-f694-41f0-9685-ff5bb260df2e"
+    ],
+    "link": "https://learn.microsoft.com/windows-hardware/customize/power-settings"
+  },
+  "WPFTweaksWindowsAI": {
+    "RequiresAdmin": true,
+    "Content": "Windows AI - Disable And Remove",
+    "ControlType": "button",
+    "ActionLabel": "Remove",
+    "Description": "Removes and disables all AI features/packages",
+    "category": "Privacy",
+    "registry": [
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+        "Name": "SettingsPageVisibility",
+        "Value": "hide:aicomponents",
+        "Type": "String",
+        "OriginalValue": "<RemoveEntry>"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\WindowsNotepad",
+        "Name": "DisableAIFeatures",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "InvokeScript": [
+      "$Appx = (Get-AppxPackage MicrosoftWindows.Client.CoreAI).PackageFullName; $Sid = (Get-LocalUser $Env:UserName).Sid.Value; New-Item 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Appx\\AppxAllUserStore\\EndOfLife\\$Sid\\$Appx' -Force; Get-AppxPackage -AllUsers '*Copilot*' | Remove-AppxPackage -AllUsers; winget uninstall -e --name 'Copilot' --silent --force --accept-source-agreements 2>$null; Get-AppxPackage -AllUsers Microsoft.MicrosoftOfficeHub | Remove-AppxPackage -AllUsers; if ($Appx) { Remove-AppxPackage $Appx }; Set-Service -Name WSAIFabricSvc -StartupType Disabled; Disable-WindowsOptionalFeature -FeatureName Recall -Online -NoRestart; Write-Host 'Windows AI Disabled'"
+    ],
+    "Timeout": 600,
+    "link": "https://winutil.christitus.com/code-reference/tweaks/z--advanced-tweaks---caution/windowsai"
+  },
+  "WPFUltPerf": {
+    "Content": "Ultimate Performance Profile",
+    "Description": "Applies the Ultimate Performance power plan for maximum CPU performance (desktop recommended). This is a one-time power-plan action, not a toggle.",
+    "category": "Performance",
+    "ControlType": "button",
+    "ActionLabel": "Apply",
+    "InvokeScript": [
+      "$guid = 'e9a42b02-d5df-448d-aa00-03f14749eb61'; if (-not (powercfg -list | Select-String $guid)) { powercfg -duplicatescheme $guid | Out-Null }; powercfg -setactive $guid"
+    ],
+    "UndoScript": [
+      "powercfg -deletescheme e9a42b02-d5df-448d-aa00-03f14749eb61"
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/performance-plans---not-for-laptops/addultperf"
+  },
+  "WPFTweaksLocation": {
+    "RequiresAdmin": true,
+    "Content": "Location Tracking - Disable",
+    "Description": "Disables Location Tracking.",
+    "category": "Privacy",
+    "service": [
+      {
+        "Name": "lfsvc",
+        "StartupType": "Disabled",
+        "OriginalType": "Manual"
+      }
+    ],
+    "registry": [
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\location",
+        "Name": "Value",
+        "Value": "Deny",
+        "Type": "String",
+        "OriginalValue": "Allow"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Sensor\\Overrides\\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}",
+        "Name": "SensorPermissionState",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      },
+      {
+        "Path": "HKLM:\\SYSTEM\\Maps",
+        "Name": "AutoUpdateEnabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      }
+    ],
+    "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/location"
+  },
+  "WPFTweaksGameMode": {
+    "Content": "Windows Game Mode - Enable",
+    "Description": "Lets Windows prioritize games and reduce competing background work. This is a safe per-user setting and can be turned off later.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Enable",
+    "registry": [
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\GameBar",
+        "Name": "AutoGameModeEnabled",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "0"
+      }
+    ],
+    "link": "https://support.microsoft.com/windows/turn-on-game-mode"
+  },
+  "WPFTweaksWindowedGames": {
+    "Content": "Windowed Game Optimizations - Enable",
+    "Description": "Enables Windows 11 optimizations for compatible DirectX 10/11 windowed and borderless games. A restart may be required.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Enable",
+    "registry": [
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\DirectX\\UserGpuPreferences",
+        "Name": "DirectXUserGlobalSettings",
+        "Value": "SwapEffectUpgradeEnable=1;",
+        "Type": "String",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://support.microsoft.com/windows/optimizations-for-windowed-games"
+  },
+  "WPFTweaksHAGS": {
+    "RequiresAdmin": true,
+    "Content": "Hardware-Accelerated GPU Scheduling - Enable",
+    "Description": "Enables GPU scheduling only when Windows and a graphics driver are present. Results vary by hardware; restart Windows after applying.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Enable",
+    "registry": [
+      {
+        "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\GraphicsDrivers",
+        "Name": "HwSchMode",
+        "Value": "2",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://support.microsoft.com/windows/change-graphics-performance-preference"
+  },
+  "WPFTweaksOptimizeSSD": {
+    "RequiresAdmin": true,
+    "Content": "SSD Maintenance - ReTrim",
+    "Description": "Runs Windows built-in TRIM maintenance on the system drive when it is an SSD. It does not defragment the drive.",
+    "category": "Storage",
+    "ControlType": "button",
+    "ActionLabel": "Run maintenance",
+    "InvokeScript": [
+      "$volume = Get-Volume -DriveLetter C -ErrorAction Stop; $disk = Get-Partition -DriveLetter C | Get-Disk; if ($disk.BusType -ne 'USB' -and $disk.MediaType -eq 'SSD') { Optimize-Volume -DriveLetter C -ReTrim -Verbose } else { Write-Host 'System drive is not a supported SSD; skipped.' }"
+    ],
+    "Timeout": 180,
+    "link": "https://learn.microsoft.com/powershell/module/storage/optimize-volume"
+  },
+  "WPFTweaksStorageSenseEnable": {
+    "Content": "Storage Sense - Enable",
+    "Description": "Lets Windows automatically remove safe temporary files while leaving Downloads alone by default.",
+    "category": "Storage",
+    "ControlType": "toggle",
+    "ActionLabel": "Enable",
+    "registry": [
+      {
+        "Path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\StorageSense\\Parameters\\StoragePolicy",
+        "Name": "01",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "0"
+      }
+    ],
+    "link": "https://support.microsoft.com/windows/manage-drive-space-with-storage-sense"
+  },
+  "WPFTweaksDisableGameBar": {
+    "Content": "Game Bar Integration - Disable",
+    "Description": "Stops the Game Bar popup from appearing when you launch a game or connect a controller.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Disable",
+    "registry": [
+      { "Path": "HKCU:\\SOFTWARE\\Microsoft\\GameBar", "Name": "UseNexusForGameBarEnabled", "Value": "0", "Type": "DWord", "OriginalValue": "1" }
+    ],
+    "InvokeScript": [
+      "New-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar\\shell\\open\\command' -Force | Out-Null; New-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices\\shell\\open\\command' -Force | Out-Null; Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar' -Value 'URL:ms-gamebar'; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar' -Name 'URL Protocol' -Value ''; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar' -Name 'NoOpenWith' -Value ''; Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar\\shell\\open\\command' -Value \"$env:SystemRoot\\System32\\systray.exe\"; Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices' -Value 'URL:ms-gamerservices'; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices' -Name 'URL Protocol' -Value ''; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices' -Name 'NoOpenWith' -Value ''; Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices\\shell\\open\\command' -Value \"$env:SystemRoot\\System32\\systray.exe\""
+    ],
+    "UndoScript": [
+      "Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar' -Value 'URL:ms-gamebar'; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar' -Name 'URL Protocol' -Value ''; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar' -Name 'NoOpenWith' -Value ''; Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamebar\\shell\\open\\command' -Value \"$env:SystemRoot\\System32\\GameBarPresenceWriter.exe\"; Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices' -Value 'URL:ms-gamerservices'; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices' -Name 'URL Protocol' -Value ''; Set-ItemProperty -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices' -Name 'NoOpenWith' -Value ''; Set-Item -Path 'Registry::HKEY_CLASSES_ROOT\\ms-gamerservices\\shell\\open\\command' -Value \"$env:SystemRoot\\System32\\GameBarPresenceWriter.exe\""
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "WPFTweaksDisableDVR": {
+    "RequiresAdmin": true,
+    "Content": "Game Recording (DVR) - Disable",
+    "Description": "Turns off Xbox game and screen recording so Windows isn't capturing clips in the background.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Disable",
+    "registry": [
+      { "Path": "HKCU:\\System\\GameConfigStore", "Name": "GameDVR_Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "1" },
+      { "Path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\GameDVR", "Name": "AppCaptureEnabled", "Value": "0", "Type": "DWord", "OriginalValue": "1" },
+      { "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR", "Name": "AllowGameDVR", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" }
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "WPFTweaksDisableBingSearch": {
+    "RequiresAdmin": true,
+    "Content": "Bing & Copilot in Search - Disable",
+    "Description": "Keeps Windows search results local by removing Bing web results and Copilot integration.",
+    "category": "Privacy",
+    "ControlType": "toggle",
+    "ActionLabel": "Disable",
+    "registry": [
+      { "Path": "HKCU:\\Software\\Policies\\Microsoft\\Windows\\Explorer", "Name": "DisableSearchBoxSuggestions", "Value": "1", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search", "Name": "AllowCortana", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search", "Name": "CortanaConsent", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" }
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "WPFTweaksDisableSuggestions": {
+    "Content": "Tips, Tricks & Suggestions - Disable",
+    "Description": "Removes tips, suggestions and ads throughout Windows, including Start suggestions, welcome experiences and Settings promos.",
+    "category": "Privacy",
+    "ControlType": "toggle",
+    "ActionLabel": "Disable",
+    "registry": [
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SubscribedContent-310093Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SubscribedContent-338388Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SystemPaneSuggestionsEnabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "Name": "Start_IrisRecommendations", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SubscribedContent-338389Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SoftLandingEnabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SubscribedContent-338393Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SubscribedContent-353694Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SubscribedContent-353696Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SubscribedContent-353698Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\SystemSettings\\AccountNotifications", "Name": "EnableAccountNotifications", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\UserProfileEngagement", "Name": "ScoobeSystemSettingEnabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "Name": "ShowSyncProviderNotifications", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager", "Name": "SilentInstalledAppsEnabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\Windows.SystemToast.Suggested", "Name": "Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Mobility", "Name": "OptedIn", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", "Name": "Start_AccountNotifications", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" },
+      { "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\Windows.SystemToast.BackupReminder", "Name": "Enabled", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" }
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "WPFTweaksHide365Ads": {
+    "RequiresAdmin": true,
+    "Content": "Microsoft 365 & Copilot Ads - Hide",
+    "Description": "Hides the Microsoft 365 and Copilot promo cards on the Settings home page.",
+    "category": "Privacy",
+    "ControlType": "toggle",
+    "ActionLabel": "Hide",
+    "registry": [
+      { "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent", "Name": "DisableConsumerAccountStateContent", "Value": "1", "Type": "DWord", "OriginalValue": "<RemoveEntry>" }
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "WPFTweaksDisableFindMyDevice": {
+    "RequiresAdmin": true,
+    "Content": "Find My Device - Disable",
+    "Description": "Stops Windows from periodically sending your device's location to Microsoft.",
+    "category": "Privacy",
+    "ControlType": "toggle",
+    "ActionLabel": "Disable",
+    "registry": [
+      { "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\FindMyDevice", "Name": "AllowFindMyDevice", "Value": "0", "Type": "DWord", "OriginalValue": "<RemoveEntry>" }
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "WPFTweaksDisableFastStartup": {
+    "RequiresAdmin": true,
+    "Content": "Fast Startup - Disable",
+    "Description": "Turns off hybrid shutdown so every shutdown is a full one. Cold boots take slightly longer, but shutdown and sleep glitches are fixed.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Disable",
+    "registry": [
+      { "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", "Name": "HiberbootEnabled", "Value": "0", "Type": "DWord", "OriginalValue": "1" }
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "WPFTweaksDisableMouseAcceleration": {
+    "Content": "Mouse Acceleration - Disable",
+    "Description": "Turns off Enhance Pointer Precision for consistent, predictable mouse movement. Restart Windows for it to take effect.",
+    "category": "Performance",
+    "ControlType": "toggle",
+    "ActionLabel": "Disable",
+    "registry": [
+      { "Path": "HKCU:\\Control Panel\\Mouse", "Name": "MouseSpeed", "Value": "0", "Type": "String", "OriginalValue": "1" },
+      { "Path": "HKCU:\\Control Panel\\Mouse", "Name": "MouseThreshold1", "Value": "0", "Type": "String", "OriginalValue": "6" },
+      { "Path": "HKCU:\\Control Panel\\Mouse", "Name": "MouseThreshold2", "Value": "0", "Type": "String", "OriginalValue": "10" }
+    ],
+    "link": "https://github.com/Raphire/Win11Debloat"
+  },
+  "presets": {
+    "Gaming": {
+      "name": "Gaming",
+      "description": "Gaming performance, network cleanup, visual effects, storage maintenance, and selected Windows features",
+      "tweaks": [
+        "CloudflareDNS",
+        "WPFTweaksServices",
+        "WPFTweaksDeliveryOptimization",
+        "WPFTweaksEnableFSO",
+        "WPFTweaksWindowedGames",
+        "WPFTweaksGameMode",
+        "WPFTweaksHAGS",
+        "WPFTweaksDisplay",
+        "WPFUltPerf",
+        "WPFTweaksHiber",
+        "WPFTweaksDiskCleanup",
+        "WPFTweaksDeleteTempFiles",
+        "WPFTweaksOptimizeSSD",
+        "WPFTweaksConsumerFeatures",
+        "WPFTweaksWindowsAI"
+      ]
+    },
+    "Productivity": {
+      "name": "Productivity",
+      "description": "A responsive office and browsing setup with balanced power, storage care, and fewer distractions",
+      "tweaks": [
+        "CloudflareDNS",
+        "WPFTweaksServices",
+        "WPFTweaksDeliveryOptimization",
+        "WPFTweaksDisplay",
+        "WPFTweaksBalancedPowerPlan",
+        "WPFTweaksHAGS",
+        "WPFTweaksStorageSenseEnable",
+        "WPFTweaksDiskCleanup",
+        "WPFTweaksDeleteTempFiles",
+        "WPFTweaksOptimizeSSD",
+        "WPFTweaksTelemetry",
+        "WPFTweaksConsumerFeatures"
+      ]
+    }
+  }
+}
